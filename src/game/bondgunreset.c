@@ -148,6 +148,7 @@ void bgunReset(void)
 	}
 
 	g_Vars.currentplayer->gunctrl.gunmem = mempAlloc(i, MEMPOOL_STAGE);
+	g_Vars.currentplayer->gunctrl.wantsgangsta = 0;
 	g_Vars.currentplayer->gunctrl.handfilenum = 0;
 	g_Vars.currentplayer->gunctrl.unk15a0 = 0;
 	g_Vars.currentplayer->gunctrl.unk15a4 = 0;
