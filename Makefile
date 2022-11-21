@@ -22,7 +22,7 @@ ROMID ?= ntsc-final
 #
 # If enabled, all further options are ignored and are set automatically.
 
-MATCHING = 1
+MATCHING ?= 1
 
 # COMPILER - Choose which compiler to use.
 #
@@ -32,7 +32,7 @@ MATCHING = 1
 #
 # Supported values: ido, gcc
 
-COMPILER = gcc
+COMPILER ?= gcc
 
 # GCC_OPT_LVL - the optimisation level if building with gcc.
 #
