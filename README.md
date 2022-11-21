@@ -6,6 +6,13 @@ The project aims to be a matching decompilation. When a matching decompilation i
 
 To build the project, you must already have a Perfect Dark ROM. The project can build the exact same ROM from decomp's source code combined with assets that it extracts from your base ROM.
 
+
+## Mod: Mouse Injector fixes
+
+- jitter fix while manual aiming
+- set radial menu alpha to 75%
+- set y pickup threshold to -60 degrees
+
 ## Status
 
 See the [Perfect Dark Decompilation Status Page](https://ryandwyer.gitlab.io/pdstatus/).
