@@ -4995,6 +4995,27 @@ void bgunCreateFiredProjectile(s32 handnum)
 	}
 }
 
+void bgunSyncSightGunPosition(f32 screenx, f32 screeny, f32 crossdamp, f32 aimdamp, struct player *player, struct hand *hand, f32 *x, f32 *y)
+{
+	// NOTE: when I comment this out I don't get the jitter effect
+	// but the gun is misaligned closer to the edges
+	s32 h = 0;
+	s32 l = 0;
+	for (l = 0; l < g_Vars.lvupdate240; l++) {
+		player->crosspossum[0] = player->crosspossum[0] * crossdamp + screenx;
+		player->crosspossum[1] = player->crosspossum[1] * crossdamp + screeny;
+		// NOTE: when only this is commented out, the jittering comes back
+		// However, the gun doesn't follow the crosshair
+		// Something to do with how the two positions are synced up
+		// when the mouse is being injected?
+		for (h = 0; h < 2; h++) {
+			hand = &player->hands[h];
+			hand->guncrosspossum[0] = (PAL ? 0.913f : 0.9269697f) * hand->guncrosspossum[0] + x[h];
+			hand->guncrosspossum[1] = (PAL ? 0.913f : 0.9269697f) * hand->guncrosspossum[1] + y[h];
+		}
+	}
+}
+
 void bgunSwivel(f32 screenx, f32 screeny, f32 crossdamp, f32 aimdamp)
 {
 	f32 screenwidth = camGetScreenWidth();
@@ -5093,16 +5114,6 @@ void bgunSwivel(f32 screenx, f32 screeny, f32 crossdamp, f32 aimdamp)
 		player->gunaimdamp = aimdamp;
 	}
 
-	for (l = 0; l < g_Vars.lvupdate240; l++) {
-		player->crosspossum[0] = player->crosspossum[0] * crossdamp + screenx;
-		player->crosspossum[1] = player->crosspossum[1] * crossdamp + screeny;
-
-		for (h = 0; h < 2; h++) {
-			hand = &player->hands[h];
-			hand->guncrosspossum[0] = (PAL ? 0.913f : 0.9269697f) * hand->guncrosspossum[0] + x[h];
-			hand->guncrosspossum[1] = (PAL ? 0.913f : 0.9269697f) * hand->guncrosspossum[1] + y[h];
-		}
-	}
 
 	player->crosspos[0] = player->crosspossum[0] * (1.0f - crossdamp) * screenwidth * 0.5f + screenwidth * 0.5f;
 	player->crosspos[1] = player->crosspossum[1] * (1.0f - crossdamp) * screenheight * 0.5f + screenheight * 0.5f;
@@ -5154,6 +5165,7 @@ void bgunSwivel(f32 screenx, f32 screeny, f32 crossdamp, f32 aimdamp)
 
 	cam0f0b4c3c(player->crosspos2, &aimpos, 1000);
 
+	bgunSyncSightGunPosition(screenx, screeny, crossdamp, aimdamp, player, hand, x, y);
 	bgunSetAimPos(&aimpos);
 }
 
