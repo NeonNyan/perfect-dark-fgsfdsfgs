@@ -17588,7 +17588,8 @@ s32 objTestForPickup(struct prop *prop)
 		}
 	}
 
-	if (g_Vars.currentplayer->vv_verta * M_BADTAU / 360.0f < -0.7852731347084f) {
+	// Y-threshold set to -60 degrees like the MouseInjector
+	if (g_Vars.currentplayer->vv_verta * M_BADTAU / 360.0f < -1.047197551f) {
 		if (g_Vars.currentplayer->magnetattracttime < 0) {
 			return TICKOP_NONE;
 		}
