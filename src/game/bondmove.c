@@ -39,6 +39,7 @@
 #include "data.h"
 #include "types.h"
 
+#define COUP_AM_TICKS 8
 void bmoveSetControlDef(u32 controldef)
 {
 	g_Vars.currentplayer->controldef = controldef;
@@ -894,7 +895,7 @@ void bmoveProcessInput(bool allowc1x, bool allowc1y, bool allowc1buttons, bool i
 
 										if (g_Vars.currentplayer->invdowntime > -1
 												&& joyGetButtonsOnSample(i, shootpad, shootallowedbuttons & Z_TRIG) == 0) {
-											if (g_Vars.currentplayer->invdowntime > TICKS(15)) {
+											if (g_Vars.currentplayer->invdowntime > TICKS(COUP_AM_TICKS)) {
 												amOpen();
 												g_Vars.currentplayer->invdowntime = -1;
 											} else {
@@ -1252,7 +1253,7 @@ void bmoveProcessInput(bool allowc1x, bool allowc1y, bool allowc1buttons, bool i
 
 										if (g_Vars.currentplayer->invdowntime >= 0 && joyGetButtonsOnSample(i, contpad1, shootbuttons & c1allowedbuttons) == 0) {
 											// Holding A and haven't pressed Z
-											if (g_Vars.currentplayer->invdowntime > TICKS(15)) {
+											if (g_Vars.currentplayer->invdowntime > TICKS(COUP_AM_TICKS)) {
 												amOpen();
 												g_Vars.currentplayer->invdowntime = -1;
 											} else {
