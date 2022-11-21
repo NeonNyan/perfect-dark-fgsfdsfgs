@@ -750,7 +750,7 @@ void amOpen(void)
 		amAssignWeaponSlots();
 		amChangeScreen(0);
 		g_AmMenus[g_AmIndex].xradius = g_AmMenus[g_AmIndex].slotwidth + 5;
-		g_AmMenus[g_AmIndex].alphafrac = 0.3;
+		g_AmMenus[g_AmIndex].alphafrac = 0.75f;
 		g_AmMenus[g_AmIndex].origscreennum = 0;
 		g_AmMenus[g_AmIndex].prevallbots = 0;
 		g_AmMenus[g_AmIndex].allbots = false;
