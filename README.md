@@ -9,6 +9,8 @@ To build the project, you must already have a Perfect Dark ROM. The project can 
 
 ## Mod: Mouse Injector fixes
 
+Build with `MI=1` to enable decomp Mouse Injector compatibility
+
 - jitter fix while manual aiming
 - set radial menu alpha to 75%
 - set y pickup threshold to -60 degrees

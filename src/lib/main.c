@@ -1412,6 +1412,20 @@ void mainTick(void)
 	Gfx *gdlstart;
 	OSScMsg msg = {OS_SC_DONE_MSG};
 	s32 i;
+	#if MI == 1
+	*(u32 *)0x80000354 = (u32) g_Vars.players[0];
+	*(u32 *)0x80000358 = (u32) g_Vars.players[1];
+	*(u32 *)0x8000035c = (u32) g_Vars.players[2];
+	*(u32 *)0x80000360 = (u32) g_Vars.players[3];
+	*(u32 *)0x80000364 = (u32) &g_Vars.tickmode;
+	*(u32 *)0x80000368 = (u32) g_LvPaused;
+	*(u32 *)0x8000036c = (u32) g_TitleNextStage;
+	*(u32 *)0x80000370 = (u32) g_MpSetup.paused;
+	*(u32 *)0x80000374 = (u32) g_PlayersWithControl[0];
+	*(u32 *)0x80000378 = (u32) g_PlayersWithControl[1];
+	*(u32 *)0x8000037c = (u32) g_PlayersWithControl[2];
+	*(u32 *)0x80000380 = (u32) g_PlayersWithControl[3];
+	#endif
 
 	if (g_MainChangeToStageNum < 0 && g_MainNumGfxTasks < 2) {
 		frametimeCalculate();

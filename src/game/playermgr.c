@@ -10,6 +10,7 @@
 #include "lib/rng.h"
 #include "data.h"
 #include "types.h"
+#include "game/lv.h"
 
 void playermgrInit(void)
 {

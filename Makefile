@@ -46,6 +46,13 @@ GCC_OPT_LVL = -Os
 
 PAL = 0
 
+
+# MI - Whether to use MouseInjector fixes
+#
+# Supported values: 0, 1
+
+MI ?= 0
+
 # ROMALLOCATION
 #
 # The lib, data and game segments are compressed in the final ROM.
@@ -440,6 +447,7 @@ ifeq ($(COMPILER), ido)
 
     CFLAGS = $(C_DEFINES) $(INCLUDES) \
         $(LOOPUNROLL) \
+        -DMI=$(MI) \
         -Wab,-r4300_mul \
         -non_shared \
         -Olimit 2000 \
@@ -462,6 +470,7 @@ else ifeq ($(COMPILER), gcc)
     $(C_O_FILES): OPT_LVL := $(GCC_OPT_LVL)
 
     CFLAGS := $(C_DEFINES) -DAVOID_UB=1 $(INCLUDES) \
+        -DMI=$(MI) \
         -EB \
         -march=vr4300 \
         -mabi=32 \
@@ -559,7 +568,7 @@ build/recomp/%/err.english.cc:
 # Link all objects together with ld to make stage1.elf. In this stage, the game,
 # lib and data segments are uncompressed and placed past the end of the ROM.
 $(B_DIR)/stage1.elf: $(O_FILES) ld/pd.ld
-	cpp -DROMID=$(ROMID) -DVERSION=$(VERSION) -DROMALLOCATION_DATA=$(ROMALLOCATION_DATA) -DROMALLOCATION_LIB=$(ROMALLOCATION_LIB) -DROMALLOCATION_GAME=$(ROMALLOCATION_GAME) -DROM_SIZE=$(ROM_SIZE) -P ld/pd.ld -o $(B_DIR)/pd.ld
+	cpp -DMI=$(MI) -DROMID=$(ROMID) -DVERSION=$(VERSION) -DROMALLOCATION_DATA=$(ROMALLOCATION_DATA) -DROMALLOCATION_LIB=$(ROMALLOCATION_LIB) -DROMALLOCATION_GAME=$(ROMALLOCATION_GAME) -DROM_SIZE=$(ROM_SIZE) -P ld/pd.ld -o $(B_DIR)/pd.ld
 	$(TOOLCHAIN)-ld --no-check-sections -z muldefs -T $(B_DIR)/pd.ld --print-map -o $@ > $(B_DIR)/pd.map
 
 $(B_DIR)/stage1.bin: $(B_DIR)/stage1.elf

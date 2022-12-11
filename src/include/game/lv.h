@@ -4,6 +4,8 @@
 #include "data.h"
 #include "types.h"
 
+extern bool g_LvPaused;
+
 u32 getVar80084040(void);
 void lvInit(void);
 void lvResetMiscSfx(void);

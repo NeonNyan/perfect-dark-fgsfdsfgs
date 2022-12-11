@@ -100,9 +100,8 @@
 struct sndstate *g_MiscSfxAudioHandles[3];
 u32 var800aa5bc;
 s32 g_MiscSfxActiveTypes[3];
-
 u32 var80084010 = 0;
-bool var80084014 = false;
+bool g_LvPaused = true;
 f32 var80084018 = 1;
 u32 var8008401c = 0x00000001;
 
@@ -237,7 +236,7 @@ void lvReset(s32 stagenum)
 {
 	lvFadeReset();
 
-	var80084014 = false;
+	g_LvPaused = false;
 	var80084010 = 0;
 
 #if VERSION >= VERSION_NTSC_1_0
@@ -2442,12 +2441,12 @@ void lvSetPaused(bool paused)
 		pakEnableRumbleForAllPlayers();
 	}
 
-	var80084014 = paused;
+	g_LvPaused = paused;
 }
 
 bool lvIsPaused(void)
 {
-	return var80084014;
+	return g_LvPaused;
 }
 
 s32 lvGetDifficulty(void)
