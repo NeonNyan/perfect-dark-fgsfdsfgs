@@ -5273,6 +5273,7 @@ struct movedata {
 	/*0xa0*/ s32 analogpitch;
 	/*0xa4*/ s32 analogstrafe;
 	/*0xa8*/ s32 analogwalk;
+	/*0xac*/ s32 alt1tapcount;
 };
 
 struct attackanimgroup {

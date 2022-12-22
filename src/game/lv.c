@@ -1286,11 +1286,12 @@ Gfx *lvRender(Gfx *gdl)
 				}
 
 				// Handle opening doors and reloading
-				if (g_Vars.currentplayer->bondactivateorreload) {
-					if (currentPlayerInteract(false)) {
-						bgunReloadIfPossible(HAND_RIGHT);
-						bgunReloadIfPossible(HAND_LEFT);
-					}
+				if (g_Vars.currentplayer->bondactivateorreload & JO_ACTION_RELOAD) {
+					bgunReloadIfPossible(HAND_RIGHT);
+					bgunReloadIfPossible(HAND_LEFT);
+				}
+				if (g_Vars.currentplayer->bondactivateorreload & JO_ACTION_ACTIVATE) {
+					currentPlayerInteract(false);
 				} else if (g_Vars.currentplayer->eyespy
 						&& g_Vars.currentplayer->eyespy->active
 						&& g_Vars.currentplayer->eyespy->opendoor) {
