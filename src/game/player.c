@@ -3116,14 +3116,22 @@ void playerConfigureVi(void)
 	var800800f0jf = 0;
 #endif
 
+	#if FOV
+	playermgrSetFovY(optionsGetFOV());
+	#else
 	playermgrSetFovY(60);
+	#endif
 	playermgrSetAspectRatio(ratio);
 	playermgrSetViewSize(playerGetViewportWidth(), playerGetViewportHeight());
 	playermgrSetViewPosition(playerGetViewportLeft(), playerGetViewportTop());
 
 	viSetMode(g_ViModes[g_ViRes].xscale);
 
+	#if FOV
+	viSetFovAspectAndSize(optionsGetFOV(), ratio, playerGetViewportWidth(), playerGetViewportHeight());
+	#else
 	viSetFovAspectAndSize(60, ratio, playerGetViewportWidth(), playerGetViewportHeight());
+	#endif
 
 	viSetViewPosition(playerGetViewportLeft(), playerGetViewportTop());
 	viSetSize(playerGetFbWidth(), playerGetFbHeight());
@@ -3182,13 +3190,21 @@ void playerTick(bool arg0)
 		return;
 	}
 
+	#if FOV
+	playermgrSetFovY(g_FoV);
+	#else
 	playermgrSetFovY(60);
+	#endif
 	playermgrSetAspectRatio(aspectratio);
 	playermgrSetViewSize(playerGetViewportWidth(), playerGetViewportHeight());
 	playermgrSetViewPosition(playerGetViewportLeft(), playerGetViewportTop());
 
 	viSetMode(g_ViModes[g_ViRes].xscale);
+	#if FOV
+	viSetFovAspectAndSize(optionsGetFOV(), aspectratio, playerGetViewportWidth(), playerGetViewportHeight());
+	#else
 	viSetFovAspectAndSize(60, aspectratio, playerGetViewportWidth(), playerGetViewportHeight());
+	#endif
 	viSetViewPosition(playerGetViewportLeft(), playerGetViewportTop());
 	viSetSize(playerGetFbWidth(), playerGetFbHeight());
 	viSetBufSize(playerGetFbWidth(), playerGetFbHeight());
@@ -5715,3 +5731,4 @@ void player0f0c3320(Mtxf *matrices, s32 count)
 		mtxF2L(&sp40, matrices + i);
 	}
 }
+

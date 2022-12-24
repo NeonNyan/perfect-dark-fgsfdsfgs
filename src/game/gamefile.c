@@ -21,6 +21,10 @@
 #include "data.h"
 #include "types.h"
 
+#if FOV
+u8 optionfov = 60;
+#endif
+
 u8 *gamefileGetFlags(void)
 {
 	return g_GameFile.flags;
@@ -164,8 +168,12 @@ void gamefileLoadDefaults(struct gamefile *file)
 	optionsSetControlMode(player2, CONTROLMODE_11);
 	pakClearAllBitflags(file->flags);
 
-	pakSetBitflag(GAMEFILEFLAG_P1_FORWARDPITCH, file->flags, false);
-	pakSetBitflag(GAMEFILEFLAG_P1_AUTOAIM, file->flags, true);
+#if FOV
+	optionsSetFOV(60);
+#endif
+
+	pakSetBitflag(GAMEFILEFLAG_P1_FORWARDPITCH, file->flags, true);
+	pakSetBitflag(GAMEFILEFLAG_P1_AUTOAIM, file->flags, false);
 	pakSetBitflag(GAMEFILEFLAG_P1_AIMCONTROL, file->flags, AIMCONTROL_HOLD);
 	pakSetBitflag(GAMEFILEFLAG_P1_SIGHTONSCREEN, file->flags, true);
 	pakSetBitflag(GAMEFILEFLAG_P1_LOOKAHEAD, file->flags, true);
@@ -318,6 +326,11 @@ s32 gamefileLoad(s32 device)
 			}
 
 			g_GameFile.unk1e = savebufferReadBits(&buffer, 16);
+
+			#if FOV
+			// FOV: only take the last 7 bits
+			optionsSetFOV((u8)(g_GameFile.unk1e & 0x7f));
+			#endif
 
 			for (i = 0; i < NUM_SOLOSTAGES; i++) {
 				for (j = 0; j < 3; j++) {
@@ -482,11 +495,20 @@ s32 gamefileSave(s32 device, s32 fileid, u16 deviceserial)
 		savebufferOr(&buffer, optionsGetControlMode(p1index), 3);
 		savebufferOr(&buffer, optionsGetControlMode(p2index), 3);
 
+		// flags
 		for (i = 0; i < 10; i++) {
 			savebufferOr(&buffer, g_GameFile.flags[i], 8);
 		}
 
+		#if FOV
+		// unk1e
+		// FOV: only take the last 7 bits
+		// only set last 7 bits to buffer
+		value = ((value & ~0x7f) | (optionsGetFOV() & 0x7f));
+		savebufferOr(&buffer, value, 16);
+		#else
 		savebufferOr(&buffer, g_GameFile.unk1e, 16);
+		#endif
 
 		for (i = 0; i < NUM_SOLOSTAGES; i++) {
 			for (j = 0; j < 3; j++) {
@@ -511,6 +533,7 @@ s32 gamefileSave(s32 device, s32 fileid, u16 deviceserial)
 		for (i = 0; i < 4; i++) {
 			savebufferOr(&buffer, g_GameFile.weaponsfound[i], 8);
 		}
+
 
 		func0f0d54c4(&buffer);
 

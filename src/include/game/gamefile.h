@@ -4,6 +4,10 @@
 #include "data.h"
 #include "types.h"
 
+#if FOV
+extern u8 optionfov;
+#endif
+
 u32 gamefileHasFlag(u32 value);
 void gamefileSetFlag(u32 value);
 void gamefileUnsetFlag(u32 value);

@@ -118,6 +118,9 @@ ZIPMAGIC = 0x0000
 # for determining how many bytes are duplicated.
 COPYLEN = 2
 
+
+FOV ?= 0
+
 # If a matching build has been requested, override directives as needed.
 ifeq ($(MATCHING), 1)
 COMPILER = ido
@@ -176,7 +179,9 @@ DEFINES := \
     MATCHING=$(MATCHING) \
     PAL=$(PAL) \
     PIRACYCHECKS=$(PIRACYCHECKS) \
-    ROM_SIZE=$(ROM_SIZE)
+    ROM_SIZE=$(ROM_SIZE) \
+    FOV=$(FOV)
+
 
 ifeq ($(DEBUG),1)
     DEFINES := $(DEFINES) DEBUG=1

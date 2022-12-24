@@ -24,6 +24,12 @@ u8 g_ScreenSplit = SCREENSPLIT_HORIZONTAL;
 u16 var8008231cnb = 0x7fff;
 #endif
 
+#if FOV
+u8 g_FoV = 60;
+f32 g_fovOffsetY = 0;
+f32 g_fovOffsetZ = 0;
+#endif
+
 s32 optionsGetControlMode(s32 mpchrnum)
 {
 	return g_PlayerConfigsArray[mpchrnum].controlmode;
@@ -331,3 +337,35 @@ void optionsSetMusicVolume(u16 volume)
 	musicSetVolume(var8008231cnb);
 #endif
 }
+
+#if FOV
+// This function can take input
+// from the slider or from
+// g_GameFile.unk1e during gamefile load
+void optionsSetFOV(u8 optionfov)
+{
+	// clamp it to 120.
+	// if still not a sensible value,
+	// set it to 60
+	g_FoV = optionfov % 121;
+	if (g_FoV < 2) g_FoV = 60;
+
+	// update weapon offsets
+	updateWeaponFovOffset();
+}
+
+ u8 optionsGetFOV(void) {
+	 return g_FoV;
+ }
+
+// This function updates Jo's weapon
+// position on screen.
+// Code adapted from the original MouseInjector implementation.
+void updateWeaponFovOffset(void)
+{
+	// for each weapon in weapon table
+	f32 fovoffset = optionsGetFOV() - 60;
+	g_fovOffsetY = (fovoffset / (2.75f * 4.f));
+	g_fovOffsetZ = (fovoffset / 3.f);
+}
+#endif

@@ -529,4 +529,9 @@ extern struct menudialogdef g_HtFailedMenuDialog;
 extern struct menudialogdef g_HtCompletedMenuDialog;
 extern struct menudialogdef g_HangarListMenuDialog;
 
+#if FOV
+extern f32 g_fovOffsetY;
+extern f32 g_fovOffsetZ;
+#endif
+
 #endif

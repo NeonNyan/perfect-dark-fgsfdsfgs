@@ -646,7 +646,26 @@ MenuItemHandlerResult menuhandlerMusicVolume(s32 operation, struct menuitem *ite
 	return 0;
 }
 
-MenuItemHandlerResult menuhandlerSfxVolume(s32 operation, struct menuitem *item, union handlerdata *data)
+#if FOV
+s32 menuhandlerFOV(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+	switch (operation) {
+	case MENUOP_GETSLIDER:
+		data->slider.value = optionsGetFOV();
+		break;
+	case MENUOP_SET:
+		if(data->slider.value < 2){
+			data->slider.value = 2;
+		}
+		optionsSetFOV(data->slider.value);
+		g_Vars.modifiedfiles |= MODFILE_GAME;
+	}
+
+	return 0;
+}
+#endif
+
+s32 menuhandlerSfxVolume(s32 operation, struct menuitem *item, union handlerdata *data)
 {
 	switch (operation) {
 	case MENUOP_GETSLIDER:
@@ -2551,6 +2570,16 @@ struct menuitem g_VideoOptionsMenuItems[] = {
 		0,
 		menuhandlerAlternativeTitle,
 	},
+	#if FOV
+	{
+		MENUITEMTYPE_SLIDER,
+		0,
+		0, // flags
+		L_OPTIONS_494, // "FoV"
+		0x0078, // max value
+		menuhandlerFOV,
+	},
+	#endif
 	{
 		MENUITEMTYPE_SEPARATOR,
 		0,

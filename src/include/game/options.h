@@ -4,6 +4,13 @@
 #include "data.h"
 #include "types.h"
 
+#if FOV
+extern u8 g_FoV;
+void updateWeaponFovOffset(void);
+void optionsSetFOV(u8 optionfov);
+u8 optionsGetFOV(void);
+#endif
+
 s32 optionsGetControlMode(s32 mpchrnum);
 void optionsSetControlMode(s32 mpchrnum, s32 mode);
 s32 optionsGetContpadNum1(s32 mpchrnum);

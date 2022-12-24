@@ -14,6 +14,8 @@ Build with `MI=1` to enable decomp Mouse Injector compatibility
 - jitter fix while manual aiming
 - set radial menu alpha to 75%
 - set y pickup threshold to -60 degrees
+- In-game FOV slider provided by HackBond. The last 7 bits of `g_GameFile.unk1e` are reserved for this value.
+- Reload button
 
 ## Status
 

@@ -7565,6 +7565,11 @@ void bgun0f0a5550(s32 handnum)
 	sp274.y += player->guncloseroffset * 5.0f / -90.0f * 50.0f;
 	sp274.z -= player->guncloseroffset * 15.0f / -90.0f * 50.0f;
 
+	#if FOV
+	sp274.y -= g_fovOffsetY;
+	sp274.z += g_fovOffsetZ;
+	#endif
+
 	if (hand->firing && shootfunc && g_Vars.lvupdate240 != 0 && shootfunc->recoilsettings != NULL) {
 		sp274.x += (RANDOMFRAC() - 0.5f) * shootfunc->recoilsettings->xrange * hand->finalmult[0];
 		sp274.y += (RANDOMFRAC() - 0.5f) * shootfunc->recoilsettings->yrange * hand->finalmult[0];

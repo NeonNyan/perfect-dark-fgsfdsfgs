@@ -1498,7 +1498,11 @@ void bmoveProcessInput(bool allowc1x, bool allowc1y, bool allowc1buttons, bool i
 	}
 
 	if (g_Vars.currentplayer->pausemode == PAUSEMODE_UNPAUSED && !g_MainIsEndscreen) {
+		#if FOV
+		zoomfov = optionsGetFOV();
+		#else
 		zoomfov = 60;
+		#endif
 
 		// FarSight in secondary function
 		if (bgunGetWeaponNum(HAND_RIGHT) == WEAPON_FARSIGHT
@@ -1507,9 +1511,15 @@ void bmoveProcessInput(bool allowc1x, bool allowc1y, bool allowc1buttons, bool i
 				&& g_Vars.currentplayer->autoeraserdist > 0) {
 			eraserfov = cam0f0b49b8(500.0f / g_Vars.currentplayer->autoeraserdist);
 
+			#if FOV
+			if (eraserfov > optionsGetFOV()) {
+				eraserfov = optionsGetFOV();
+			}
+			#else
 			if (eraserfov > 60) {
 				eraserfov = 60;
 			}
+			#endif
 
 			if (eraserfov < 2) {
 				eraserfov = 2;
@@ -1543,10 +1553,15 @@ void bmoveProcessInput(bool allowc1x, bool allowc1y, bool allowc1buttons, bool i
 			zoomfov = currentPlayerGetGunZoomFov();
 		}
 
+		#if FOV
+		if (zoomfov <= 0) {
+			zoomfov = optionsGetFOV();
+		}
+		#else
 		if (zoomfov <= 0) {
 			zoomfov = 60;
 		}
-
+		#endif
 		playerTweenFovY(zoomfov);
 		playerUpdateZoom();
 	}
