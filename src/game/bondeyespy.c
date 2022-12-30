@@ -937,6 +937,7 @@ void eyespyProcessInput(bool allowbuttons)
 		// Make eyespy look horizontally
 		if (domovecentre) {
 			if (g_Vars.currentplayer->eyespy->verta > 0.0f && forwardspeed != 0) {
+				#if !MI
 				if (g_Vars.currentplayer->eyespy->verta < 180.0f) {
 					tmp = g_Vars.currentplayer->eyespy->verta;
 
@@ -952,6 +953,7 @@ void eyespyProcessInput(bool allowbuttons)
 						g_Vars.currentplayer->eyespy->verta += tmp;
 					}
 				}
+				#endif
 
 				g_Vars.currentplayer->eyespy->cosverta = cosf(g_Vars.currentplayer->eyespy->verta * 0.017453292384744f);
 				g_Vars.currentplayer->eyespy->sinverta = sinf(g_Vars.currentplayer->eyespy->verta * 0.017453292384744f);
