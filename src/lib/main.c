@@ -1363,7 +1363,7 @@ void mainLoop(void)
 			case OS_SC_RETRACE_MSG:
 				cycles = osGetCount() - g_Vars.thisframestartt;
 
-				if (cycles >= g_Vars.mininc60 * CYCLES_PER_FRAME - CYCLES_PER_FRAME / 2) {
+				if (g_Vars.diffframe60 == 2 || cycles >= g_Vars.mininc60 * CYCLES_PER_FRAME - CYCLES_PER_FRAME / 2) {
 					mainTick();
 				}
 				break;

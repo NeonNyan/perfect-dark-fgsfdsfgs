@@ -102,6 +102,7 @@ u32 var800aa5bc;
 s32 g_MiscSfxActiveTypes[3];
 u32 var80084010 = 0;
 bool g_LvPaused = true;
+s32 g_slowmo = SLOWMOTION_OFF;
 f32 var80084018 = 1;
 u32 var8008401c = 0x00000001;
 
@@ -237,6 +238,7 @@ void lvReset(s32 stagenum)
 	lvFadeReset();
 
 	g_LvPaused = false;
+	g_slowmo = SLOWMOTION_OFF;
 	var80084010 = 0;
 
 #if VERSION >= VERSION_NTSC_1_0
@@ -2045,6 +2047,9 @@ void lvTick(void)
 		}
 	} else {
 		s32 slowmo = lvGetSlowMotionType();
+		if (slowmo != SLOWMOTION_SMART) {
+			g_slowmo = slowmo;
+		}
 		g_Vars.lvupdate240 = g_Vars.diffframe240;
 
 		if (slowmo == SLOWMOTION_ON) {
@@ -2080,15 +2085,18 @@ void lvTick(void)
 					}
 
 					if (foundnearbychr) {
+						g_slowmo = SLOWMOTION_SMART;
 						if (g_Vars.lvupdate240 > 4) {
 							g_Vars.lvupdate240 = 4;
 						}
 					} else {
+						g_slowmo = SLOWMOTION_OFF;
 						if (g_Vars.lvupdate240 > 8) {
 							g_Vars.lvupdate240 = 8;
 						}
 					}
 				} else {
+					g_slowmo = SLOWMOTION_SMART;
 					if (g_Vars.lvupdate240 > 4) {
 						g_Vars.lvupdate240 = 4;
 					}

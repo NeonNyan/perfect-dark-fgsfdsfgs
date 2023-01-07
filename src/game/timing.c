@@ -4,7 +4,7 @@
 #include "bss.h"
 #include "data.h"
 #include "types.h"
-
+#include "game/lv.h"
 void frametimeInit(void)
 {
 	g_Vars.thisframestartt = osGetCount();
@@ -27,12 +27,42 @@ void frametimeApply(s32 diffframe60, s32 diffframe240, s32 frametime)
 	g_Vars.diffframe240freal = PALUPF(g_Vars.diffframe240f);
 }
 
+bool frametimeIsSlowMotion(void) {
+	bool usingboost = g_Vars.speedpillwant;
+
+	if (g_Vars.normmplayerisrunning) {
+		if ((g_MpSetup.options & MPOPTION_SLOWMOTION_SMART) == 0) {
+			if (g_MpSetup.options & MPOPTION_SLOWMOTION_ON) {
+				return !usingboost;
+			} else {
+				return usingboost;
+			}
+		}
+		if (g_slowmo == SLOWMOTION_SMART){
+			return !usingboost;
+		}
+	} else {
+		if ((cheatIsActive(CHEAT_SLOMO))) {
+			return !usingboost;
+		} else {
+			return usingboost;
+		}
+	}
+
+	return false;
+}
+
 void frametimeCalculate(void)
 {
 	u32 count;
 	u32 diffframet;
 	u32 diffframe60;
 	u32 diffframe240;
+	u32 cycles = CYCLES_PER_FRAME;
+
+	if (frametimeIsSlowMotion()) {
+		cycles *= 2;
+	}
 
 	do {
 		count = osGetCount();
@@ -40,11 +70,11 @@ void frametimeCalculate(void)
 		g_Vars.diffframet = diffframet;
 
 		diffframe60 = (g_Vars.lostframetime60t + diffframet + CYCLES_PER_FRAME / 2) / CYCLES_PER_FRAME;
-		diffframe240 = (g_Vars.lostframetime240t + diffframet + CYCLES_PER_FRAME / 2 / 4) / (CYCLES_PER_FRAME / 4);
+		diffframe240 = (g_Vars.lostframetime240t + diffframet + CYCLES_PER_FRAME / 2 / 4) / (cycles / 4);
 	} while (diffframe60 < g_Vars.mininc60);
 
 	g_Vars.lostframetime60t = g_Vars.lostframetime60t + diffframet - diffframe60 * CYCLES_PER_FRAME;
-	g_Vars.lostframetime240t = g_Vars.lostframetime240t + diffframet - diffframe240 * (CYCLES_PER_FRAME / 4);
+	g_Vars.lostframetime240t = g_Vars.lostframetime240t + diffframet - diffframe240 * (cycles / 4);
 
 	g_Vars.mininc60 = 1;
 

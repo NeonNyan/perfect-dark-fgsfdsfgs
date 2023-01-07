@@ -5,6 +5,14 @@
 #include "types.h"
 
 extern bool g_LvPaused;
+// The effective SLOWMOTION_* mode in play
+// When "Smart Slow motion" is not in use,
+// g_slowmo is set to SLOWMOTION_OFF or SLOWMOTION_ON
+// as one would expect. When "Smart Slow Motion" is used,
+// this is always set to SLOWMOTION_OFF until the required conditions
+// to trigger the apparent slow motion happen. And it's reset to SLOWMOTION_OFF when not.
+// By default, this is when two human-controled player characters are in the same or nearby room.
+extern s32 g_slowmo;
 
 u32 getVar80084040(void);
 void lvInit(void);
