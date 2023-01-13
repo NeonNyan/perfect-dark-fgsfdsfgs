@@ -514,6 +514,8 @@ void playerStartNewLife(void)
 	g_Vars.currentplayer->damagetype = DAMAGETYPE_7;
 	g_Vars.currentplayer->gunammooff = 0;
 	g_Vars.currentplayer->gunsightoff = 2;
+	g_Vars.currentplayer->prop->chr->blurdrugamount = 0;
+	g_Vars.currentplayer->prop->chr->poisoncounter = 0;
 
 	hudmsgsSetOn(0xffffffff);
 
