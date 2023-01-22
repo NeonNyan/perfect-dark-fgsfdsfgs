@@ -7,15 +7,22 @@ The project aims to be a matching decompilation. When a matching decompilation i
 To build the project, you must already have a Perfect Dark ROM. The project can build the exact same ROM from decomp's source code combined with assets that it extracts from your base ROM.
 
 
-## Mod: Mouse Injector fixes
+## Mod: 1964GEPD / Mouse Injector fixes
 
-Build with `MI=1` to enable decomp Mouse Injector compatibility
+This branch includes Mouse Injector compatability and injectable "unofficial patches" that were originally implemented by Stolen and Carnivorous. These enhancements were ported to the decompilation project by N64 Vault community members.
 
-- jitter fix while manual aiming
-- set radial menu alpha to 75%
-- set y pickup threshold to -60 degrees
-- In-game FOV slider provided by HackBond. The last 7 bits of `g_GameFile.unk1e` are reserved for this value.
-- Reload button
+Build with `MI=1` to enable decomp Mouse Injector compatibility. Build with `FOV=1` to enable the in-game FOV slider.
+
+- `Stable addressing of relevant Mouse Injector pointers` enabled by Ryan Dwyer
+- `Mouse Injector in Perfect Dark decomp proof of concept` by Catherine Reprobate
+- `1964GEPD overclocking compatibility` by Ryan Dwyer
+- `1964GEPD smart slow motion fix` by Catherine Reprobate
+- `Jitter fix while manual aiming` ported by Catherine Reprobate
+- `Set radial menu alpha to 75%` ported by Catherine Reprobate
+- `Set y pickup threshold to -60 degrees` ported by Catherine Reprobate
+- `Reload button` ported by Catherine Reprobate
+- `Blur reset on respawn` ported by Graslu
+- `In-game FOV slider` proof of concept by HackBond and modified by Catherine Reprobate. The last 7 bits of `(u16)g_GameFile.unk1e` are reserved for this value.
 
 ## Status
 
