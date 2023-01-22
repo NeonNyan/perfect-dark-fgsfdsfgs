@@ -13,6 +13,8 @@ This branch includes Mouse Injector compatability and injectable "unofficial pat
 
 Build with `MI=1` to enable decomp Mouse Injector compatibility. Build with `FOV=1` to enable the in-game FOV slider.
 
+Note for modders: The `mods/mouse-injector` branch is frequently rebased against the upstream master branch. `mods/mouse-injector_release_*` branches will never be force-pushed to and can be considered reliable mod bases.
+
 - `Stable addressing of relevant Mouse Injector pointers` enabled by Ryan Dwyer
 - `Mouse Injector in Perfect Dark decomp proof of concept` by Catherine Reprobate
 - `1964GEPD overclocking compatibility` by Ryan Dwyer
