@@ -9,24 +9,6 @@
 #include "gfx_window_manager_api.h"
 #include "gfx_screen_config.h"
 
-// define a way to yield the cpu when in a busy wait
-#ifdef PLATFORM_WIN32
-// winapi provides a yield macro
-#include <windows.h>
-#define DO_YIELD() YieldProcessor()
-#elif defined(PLATFORM_X86) || defined(PLATFORM_X86_64)
-// this should work even if the code is not built with SSE enabled, at least on gcc and clang,
-// but if it doesn't we'll have to use  __builtin_ia32_pause() or something
-#include <immintrin.h>
-#define DO_YIELD() _mm_pause()
-#elif defined(PLATFORM_ARM)
-// same as YieldProcessor() on ARM Windows
-#define DO_YIELD() __asm__ volatile("dmb ishst\n\tyield":::"memory")
-#else
-// fuck it
-#define DO_YIELD() do { } while (0)
-#endif
-
 static SDL_Window* wnd;
 static SDL_GLContext ctx;
 static SDL_Renderer* renderer;
@@ -44,27 +26,8 @@ static int target_fps = 120; // above 60 since vsync is enabled by default
 static uint64_t previous_time;
 static uint64_t qpc_freq;
 
-#ifdef PLATFORM_WIN32
-// on win32 we use waitable timers instead of nanosleep
-typedef HANDLE WINAPI (*CREATEWAITABLETIMEREXAFN)(LPSECURITY_ATTRIBUTES, LPCSTR, DWORD, DWORD);
-static HANDLE timer;
-static CREATEWAITABLETIMEREXAFN pfnCreateWaitableTimerExA;
-#endif
-
 #define FRAME_INTERVAL_US_NUMERATOR 1000000
 #define FRAME_INTERVAL_US_DENOMINATOR (target_fps)
-
-static inline void do_sleep(const int64_t left) {
-#ifdef PLATFORM_WIN32
-    static LARGE_INTEGER li;
-    li.QuadPart = -left;
-    SetWaitableTimer(timer, &li, 0, nullptr, nullptr, false);
-    WaitForSingleObject(timer, INFINITE);
-#else
-    const timespec spec = { 0, left * 100 };
-    nanosleep(&spec, nullptr);
-#endif
-}
 
 static void set_fullscreen(bool on, bool call_callback) {
     if (fullscreen_state == on) {
@@ -181,20 +144,6 @@ static void gfx_sdl_init(const char* game_name, const char* gfx_api_name, bool s
 
     qpc_freq = SDL_GetPerformanceFrequency();
 
-#ifdef PLATFORM_WIN32
-    // this function is only present on Vista+, so try to import it from kernel32 by hand
-    pfnCreateWaitableTimerExA = (CREATEWAITABLETIMEREXAFN)GetProcAddress(GetModuleHandleA("kernel32.dll"), "CreateWaitableTimerExA");
-    if (pfnCreateWaitableTimerExA) {
-        // function exists, try to create a hires timer
-        timer = pfnCreateWaitableTimerExA(nullptr, nullptr, CREATE_WAITABLE_TIMER_HIGH_RESOLUTION, TIMER_ALL_ACCESS);
-    }
-    if (!timer) {
-        // no function or hires timers not supported, fallback to lower resolution timer
-        sysLogPrintf(LOG_WARNING, "SDL: hires waitable timers not available");
-        timer = CreateWaitableTimerA(nullptr, false, nullptr);
-    }
-#endif
-
     set_maximize_window(start_maximized);
     set_fullscreen(start_in_fullscreen, false);
 }
@@ -272,11 +221,11 @@ static inline void sync_framerate_with_timer(void) {
     // We want to exit a bit early, so we can busy-wait the rest to never miss the deadline
     left -= 15000UL;
     if (left > 0) {
-        do_sleep(left);
+        sysSleep(left);
     }
 
     do {
-        DO_YIELD();
+        sysCpuRelax();
         t = qpc_to_100ns(SDL_GetPerformanceCounter());
     } while ((int64_t)t < next);
 
