@@ -1,5 +1,8 @@
 # Mod: Perfect Dark without Pausing
 
+[![](http://img.youtube.com/vi/MHwGS0cP-3g/0.jpg)](https://www.youtube.com/watch?v=MHwGS0cP-3g)
+
+
 The pausing-blur effect can now be disabled via an in-game option. Leave it off for an extra challenge. 
 
 To toggle: `Options -> Extended -> Video -> Enable Local Pausing`
