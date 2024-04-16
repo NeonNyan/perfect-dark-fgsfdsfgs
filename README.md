@@ -1,3 +1,11 @@
+# Mod: Perfect Dark without Pausing
+
+The pausing-blur effect can now be disabled via an in-game option. Leave it off for an extra challenge. 
+
+To toggle: `Options -> Extended -> Video -> Enable Local Pausing`
+
+This branch closely follows `fgsfdsfgs/perfect_dark`@`port`
+
 # Perfect Dark port
 
 This repository contains a work-in-progress port of the [Perfect Dark decompilation](https://github.com/n64decomp/perfect_dark) to modern platforms.
