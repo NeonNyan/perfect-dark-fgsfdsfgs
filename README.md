@@ -6,6 +6,12 @@ To toggle: `Options -> Extended -> Video -> Enable Local Pausing`
 
 This branch closely follows `fgsfdsfgs/perfect_dark`@`port`
 
+
+## Download links
+
+- [Latest - per-commit builds](https://github.com/NeonNyan/perfect-dark-fgsfdsfgs/actions?query=branch%3Amod%2Fpausing-optional++)
+- [Releases](https://github.com/NeonNyan/perfect-dark-fgsfdsfgs/releases?q=%22MOD+-+PC%3A+Perfect+Dark+Without+Pausing%22&expanded=true)
+
 # Perfect Dark port
 
 This repository contains a work-in-progress port of the [Perfect Dark decompilation](https://github.com/n64decomp/perfect_dark) to modern platforms.
