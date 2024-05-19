@@ -11743,6 +11743,7 @@ s32 bgunConsiderToggleGunFunction(s32 usedowntime, bool trigpressed, bool fromac
 {
 #ifndef PLATFORM_N64
 	const bool extcontrols = PLAYER_EXTCFG().extcontrols;
+	bool docontinue;
 #endif
 	switch (bgunGetWeaponNum(HAND_RIGHT)) {
 	case WEAPON_SNIPERRIFLE:
@@ -11767,7 +11768,6 @@ s32 bgunConsiderToggleGunFunction(s32 usedowntime, bool trigpressed, bool fromac
 		}
 
 #ifndef PLATFORM_N64
-		bool docontinue;
 		if (extcontrols) {
 			docontinue = (ABS(usedowntime) < 0);
 		} else {
@@ -11789,6 +11789,18 @@ s32 bgunConsiderToggleGunFunction(s32 usedowntime, bool trigpressed, bool fromac
 		g_Vars.currentplayer->hands[HAND_RIGHT].activatesecondary = true;
 		return (extcontrols ? USETIMER_STOP : USETIMER_REPEAT);
 	case WEAPON_RCP120:
+#ifndef PLATFORM_N64
+		// very special alt-button handling for RCP-120's cloaking
+		if (!trigpressed && extcontrols && fromdedicatedbutton) {
+			if (g_Vars.currentplayer->devicesactive & DEVICE_CLOAKRCP120) {
+				g_Vars.currentplayer->devicesactive &= ~DEVICE_CLOAKRCP120;
+			} else {
+				g_Vars.currentplayer->devicesactive = (g_Vars.currentplayer->devicesactive & ~DEVICE_CLOAKRCP120) | DEVICE_CLOAKRCP120;
+			}
+			g_Vars.currentplayer->gunctrl.invertgunfunc = false;
+			return USETIMER_STOP;
+		}
+#endif
 	case WEAPON_LAPTOPGUN:
 	case WEAPON_DRAGON:
 	case WEAPON_REMOTEMINE:
