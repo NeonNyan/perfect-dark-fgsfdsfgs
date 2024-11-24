@@ -1201,13 +1201,13 @@ void mpApplyWeaponSet(void)
 		s32 numoptions = mpGetNumWeaponOptions();
 
 		for (i = 0; i < ARRAYCOUNT(g_MpSetup.weapons); i++) {
-			mpSetWeaponSlot(i, random() % numoptions);
+			mpSetWeaponSlot(i, rngRandom() % numoptions);
 		}
 	} else if (g_MpWeaponSetNum == WEAPONSET_RANDOMFIVE) {
 		s32 numoptions = mpGetNumWeaponOptions() - 2;
 
 		for (i = 0; i < 5; i++) {
-			mpSetWeaponSlot(i, random() % numoptions + 1);
+			mpSetWeaponSlot(i, rngRandom() % numoptions + 1);
 		}
 
 		mpSetWeaponSlot(i, mpGetNumWeaponOptions() - 1);
@@ -1388,7 +1388,7 @@ s32 mpFindMaxInt(s32 numplayers, s32 val0, s32 val1, s32 val2, s32 val3)
 	s32 bestplayer = 0;
 
 	if (numplayers >= 2) {
-		if (val1 > bestvalue || (val1 == bestvalue && (random() % 2))) {
+		if (val1 > bestvalue || (val1 == bestvalue && (rngRandom() % 2))) {
 			bestplayer = 1;
 			bestvalue = val1;
 		} else {
@@ -1397,13 +1397,13 @@ s32 mpFindMaxInt(s32 numplayers, s32 val0, s32 val1, s32 val2, s32 val3)
 		}
 
 		if (numplayers >= 3) {
-			if (val2 > bestvalue || (val2 == bestvalue && (random() % 2))) {
+			if (val2 > bestvalue || (val2 == bestvalue && (rngRandom() % 2))) {
 				bestplayer = 2;
 				bestvalue = val2;
 			}
 
 			if (numplayers >= 4) {
-				if (val3 > bestvalue || (val3 == bestvalue && (random() % 2))) {
+				if (val3 > bestvalue || (val3 == bestvalue && (rngRandom() % 2))) {
 					bestplayer = 3;
 				}
 			}
@@ -1419,7 +1419,7 @@ s32 mpFindMinInt(s32 numplayers, s32 val0, s32 val1, s32 val2, s32 val3)
 	s32 bestplayer = 0;
 
 	if (numplayers >= 2) {
-		if (val1 < bestvalue || (val1 == bestvalue && (random() % 2))) {
+		if (val1 < bestvalue || (val1 == bestvalue && (rngRandom() % 2))) {
 			bestplayer = 1;
 			bestvalue = val1;
 		} else {
@@ -1428,13 +1428,13 @@ s32 mpFindMinInt(s32 numplayers, s32 val0, s32 val1, s32 val2, s32 val3)
 		}
 
 		if (numplayers >= 3) {
-			if (val2 < bestvalue || (val2 == bestvalue && (random() % 2))) {
+			if (val2 < bestvalue || (val2 == bestvalue && (rngRandom() % 2))) {
 				bestplayer = 2;
 				bestvalue = val2;
 			}
 
 			if (numplayers >= 4) {
-				if (val3 < bestvalue || (val3 == bestvalue && (random() % 2))) {
+				if (val3 < bestvalue || (val3 == bestvalue && (rngRandom() % 2))) {
 					bestplayer = 3;
 				}
 			}
@@ -1452,7 +1452,7 @@ s32 mpFindMaxFloat(s32 numplayers, f32 val0, f32 val1, f32 val2, f32 val3)
 	s32 bestplayer = 0;
 
 	if (numplayers >= 2) {
-		if (val1 > val0 || (val1 == val0 && (random() % 2))) {
+		if (val1 > val0 || (val1 == val0 && (rngRandom() % 2))) {
 			bestplayer = 1;
 			bestvalue = val1;
 		} else {
@@ -1461,13 +1461,13 @@ s32 mpFindMaxFloat(s32 numplayers, f32 val0, f32 val1, f32 val2, f32 val3)
 		}
 
 		if (numplayers >= 3) {
-			if (val2 > bestvalue || (val2 == bestvalue && (random() % 2))) {
+			if (val2 > bestvalue || (val2 == bestvalue && (rngRandom() % 2))) {
 				bestplayer = 2;
 				bestvalue = val2;
 			}
 
 			if (numplayers >= 4) {
-				if (val3 > bestvalue || (val3 == bestvalue && (random() % 2))) {
+				if (val3 > bestvalue || (val3 == bestvalue && (rngRandom() % 2))) {
 					bestplayer = 3;
 				}
 			}
@@ -1487,7 +1487,7 @@ s32 mpFindMinFloat(s32 numplayers, f32 val0, f32 val1, f32 val2, f32 val3)
 	if (numplayers >= 2) {
 		if (val0);
 
-		if (val1 < val0 || (val1 == val0 && (random() % 2))) {
+		if (val1 < val0 || (val1 == val0 && (rngRandom() % 2))) {
 			bestplayer = 1;
 			bestvalue = val1;
 		} else {
@@ -1496,13 +1496,13 @@ s32 mpFindMinFloat(s32 numplayers, f32 val0, f32 val1, f32 val2, f32 val3)
 		}
 
 		if (numplayers >= 3) {
-			if (val2 < bestvalue || (val2 == bestvalue && (random() % 2))) {
+			if (val2 < bestvalue || (val2 == bestvalue && (rngRandom() % 2))) {
 				bestplayer = 2;
 				bestvalue = val2;
 			}
 
 			if (numplayers >= 4) {
-				if (val3 < bestvalue || (val3 == bestvalue && (random() % 2))) {
+				if (val3 < bestvalue || (val3 == bestvalue && (rngRandom() % 2))) {
 					bestplayer = 3;
 				}
 			}
@@ -2318,11 +2318,11 @@ void mpCalculateAwards(void)
 				numdone = 1;
 			}
 
-			awardindex = random() % 17;
+			awardindex = rngRandom() % 17;
 		}
 
 		while (numdone < 2) {
-			awardindex = random() % 17;
+			awardindex = rngRandom() % 17;
 
 			if (metrics[i].awards & (1 << awardindex)) {
 				metrics[i].awards &= ~(1 << awardindex);
@@ -2587,9 +2587,9 @@ s32 mpGetMpheadnumByMpbodynum(s32 mpbodynum)
 
 	if (headnum == 1000) {
 		if (g_HeadsAndBodies[g_MpBodies[mpbodynum].bodynum].ismale) {
-			headnum = g_MpMaleHeads[random() % ARRAYCOUNT(g_MpMaleHeads)];
+			headnum = g_MpMaleHeads[rngRandom() % ARRAYCOUNT(g_MpMaleHeads)];
 		} else {
-			headnum = g_MpFemaleHeads[random() % ARRAYCOUNT(g_MpFemaleHeads)];
+			headnum = g_MpFemaleHeads[rngRandom() % ARRAYCOUNT(g_MpFemaleHeads)];
 		}
 	}
 
@@ -2612,8 +2612,8 @@ void mpFindUnusedHeadAndBody(u8 *mpheadnum, u8 *mpbodynum)
 
 	do {
 		available = true;
-		trympheadnum = random() % ARRAYCOUNT(g_MpHeads);
-		trympbodynum = random() % ARRAYCOUNT(g_MpBodies);
+		trympheadnum = rngRandom() % ARRAYCOUNT(g_MpHeads);
+		trympbodynum = rngRandom() % ARRAYCOUNT(g_MpBodies);
 
 		for (i = 0; i < MAX_MPCHRS; i++) {
 			if (g_MpSetup.chrslots & (1 << i)) {
@@ -2638,7 +2638,7 @@ void mpFindUnusedHeadAndBody(u8 *mpheadnum, u8 *mpbodynum)
 
 s32 mpChooseRandomLockPlayer(void)
 {
-	s32 start = random() % 4;
+	s32 start = rngRandom() % 4;
 	s32 i;
 
 	for (i = (start + 1) % 4;; i = (i + 1) % 4) {
@@ -2894,7 +2894,7 @@ void mpRandomiseMultiTracks(void)
 	s32 i;
 
 	for (i = 0; i != ARRAYCOUNT(g_BossFile.multipletracknums); i++) {
-		g_BossFile.multipletracknums[i] = random();
+		g_BossFile.multipletracknums[i] = rngRandom();
 	}
 }
 
@@ -2929,7 +2929,7 @@ s32 mpChooseTrack(void)
 
 		if (numselected == 0) {
 			do {
-				tracknum = mpGetTrackNumAtSlotIndex(random() % numunlocked);
+				tracknum = mpGetTrackNumAtSlotIndex(rngRandom() % numunlocked);
 			} while (tracknum == g_MpLockInfo.unk04);
 
 			g_MpLockInfo.unk04 = tracknum;
@@ -2939,7 +2939,7 @@ s32 mpChooseTrack(void)
 		}
 
 		do {
-			s32 selectionindex = random() % numselected;
+			s32 selectionindex = rngRandom() % numselected;
 			s32 selectioncount = 0;
 			tracknum = -1;
 
@@ -2973,7 +2973,7 @@ s32 mpChooseTrack(void)
 		s32 numunlocked = mpGetNumUnlockedTracks();
 
 		do {
-			tracknum = mpGetTrackNumAtSlotIndex(random() % numunlocked);
+			tracknum = mpGetTrackNumAtSlotIndex(rngRandom() % numunlocked);
 		} while (tracknum == g_MpLockInfo.unk04);
 
 		g_MpLockInfo.unk04 = tracknum;
@@ -3094,7 +3094,7 @@ void mpCreateBotFromProfile(s32 botnum, u8 profilenum)
 	g_BotConfigsArray[botnum].base.team = team;
 
 	while (!available) {
-		headnum = g_BotHeads[random() % ARRAYCOUNT(g_BotHeads)];
+		headnum = g_BotHeads[rngRandom() % ARRAYCOUNT(g_BotHeads)];
 		available = true;
 
 		for (i = 0; i < MAX_MPCHRS; i++) {
@@ -3146,6 +3146,21 @@ void mpRemoveSimulant(s32 index)
 	func0f1881d4(index);
 	mpGenerateBotNames();
 }
+
+#ifndef PLATFORM_N64
+void mpCopySimulant(s32 index)
+{
+	s32 dest = mpGetSlotForNewBot();
+
+	g_MpSetup.chrslots |= 1 << (dest + 4);
+	g_BotConfigsArray[dest].base.name[0] = g_BotConfigsArray[index].base.name[0];
+	g_BotConfigsArray[dest].base.mpheadnum = g_BotConfigsArray[index].base.mpheadnum;
+	g_BotConfigsArray[dest].base.mpbodynum = g_BotConfigsArray[index].base.mpbodynum;
+	g_BotConfigsArray[dest].type = g_BotConfigsArray[index].type;
+	g_BotConfigsArray[dest].difficulty = g_BotConfigsArray[index].difficulty;
+	mpGenerateBotNames();
+}
+#endif
 
 bool mpHasSimulants(void)
 {
